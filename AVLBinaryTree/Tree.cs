@@ -15,25 +15,44 @@ namespace AVLBinaryTree
             Head = null;
         }
 
-        public int CheckBalance(Node<T> node)
+        public int checkBalance(Node<T> node)
         {
-            if(node.isLeftChild() == false && node.isRightChild() == false)
+            if (!node.isLeftChild() && !node.isRightChild())
             {
                 return 0;
             }
-            else
+            else if (node.isLeftChild() && !node.isRightChild())
             {
-                return node.Right.Height - node.Left.Height;
+                return 0 - node.Left.Height;
             }
-
+            else if(node.isRightChild() && !node.isLeftChild())
+            {
+                return node.Right.Height;
+            }
+            return node.Right.Height - node.Left.Height;
         }
 
-        public void Balance()
+        public void balance(Node<T> node)
         {
+            if (checkBalance(node) < 1) //rotate right
+            {
+                node = node.Left.Right;
+            }
+            else if (checkBalance(node) > 1) // rotate left
+            {
+                node = node.Right.Left;
+            }
+            else if (checkBalance(node) > 1 && checkBalance(node.Right) <s 1)
+            {
 
+            }
+            else if (checkBalance(node) < 1 && checkBalance(node.Left) > 1)
+            {
+
+            }
         }
 
-        public void Add(T value)
+        public void add(T value)
         {
             if (Head == null)
             {
@@ -54,9 +73,9 @@ namespace AVLBinaryTree
                             done = true;
                             current.Right = node;
                             node.Parent = current;
-                            if(CheckBalance(node) > 1 || CheckBalance(node) < -1)
+                            if(checkBalance(node) > 1 || checkBalance(node) < -1)
                             {
-                                Balance();
+                                balance(node);
                             }
                         }
                         else
@@ -72,13 +91,14 @@ namespace AVLBinaryTree
                             done = true;
                             current.Left = node;
                             node.Parent = current;
-                            if (CheckBalance(node) > 1 || CheckBalance(node) < -1)
+                            if (checkBalance(node) > 1 || checkBalance(node) < -1)
                             {
-                                Balance();
+                                balance(node);
                             }
                         }
                         else
                         {
+                            current.Height++;
                             current = current.Left;
                         }
 
