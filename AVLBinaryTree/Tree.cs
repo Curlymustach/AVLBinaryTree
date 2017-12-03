@@ -15,54 +15,84 @@ namespace AVLBinaryTree
             Head = null;
         }
 
-        public int checkBalance(Node<T> node)
+        public int CheckBalance(Node<T> node)
         {
-            if (!node.isLeftChild() && !node.isRightChild())
+            if (node.Left == null && node.Right == null)
             {
                 return 0;
             }
-            else if (node.isLeftChild() && !node.isRightChild())
+            else if (node.Left != null && node.Right == null)
             {
                 return 0 - node.Left.Height;
             }
-            else if(node.isRightChild() && !node.isLeftChild())
+            else if (node.Right != null && node.Left == null)
             {
                 return node.Right.Height;
             }
             return node.Right.Height - node.Left.Height;
         }
 
-        public void balance(Node<T> node)
+        public void RotateRight(Node<T> node)
         {
-            if (checkBalance(node) < 1) //rotate right
-            {
-                node = node.Left.Right;
-            }
-            else if (checkBalance(node) > 1) // rotate left
-            {
-                node = node.Right.Left;
-            }
-            else if (checkBalance(node) > 1 && checkBalance(node.Right) <s 1)
-            {
+            node.Left = node;
+            node = node.Left.Right;
+        }
 
-            }
-            else if (checkBalance(node) < 1 && checkBalance(node.Left) > 1)
-            {
+        public void RotateLeft(Node<T> node)
+        {
+            node.Right = node;
+            node = node.Right.Left;
+        }
 
+        public void Balance(Node<T> node)
+        {
+            //update height
+            //set node height to larger child + 1
+            //node.Height = node.LargerChildHeight() + 1;
+
+            node.Height = node.LargerChildHeight() + 1;
+
+            //check balance
+            if (CheckBalance(node) < 1) //rotate right
+            {
+                if (CheckBalance(node.Left) > 0) //check for double rotate
+                {
+                    //rotate node.Left to the left
+                    RotateLeft(node.Left);
+                }
+
+                //rotate node right
+                RotateRight(node);
+            }
+            else if (CheckBalance(node) > 1) // rotate left
+            {
+                if (CheckBalance(node.Right) < 0) //check for double rotate
+                {
+                    //rotate node.Right to the right
+                    RotateRight(node.Right);
+                }
+
+                //rotate node left
+                RotateLeft(node);
+            }
+
+            if (node.Parent != null)
+            {
+                Balance(node.Parent);
             }
         }
 
-        public void add(T value)
+        public void Add(T value)
         {
             if (Head == null)
             {
                 Head = new Node<T>(value, 1);
-                
+
             }
             else
             {
                 Node<T> current = Head;
-                Node<T> node = new Node<T>(value);
+                Node<T> node = new Node<T>(value, 1);
                 bool done = false;
                 do
                 {
@@ -73,14 +103,10 @@ namespace AVLBinaryTree
                             done = true;
                             current.Right = node;
                             node.Parent = current;
-                            if(checkBalance(node) > 1 || checkBalance(node) < -1)
-                            {
-                                balance(node);
-                            }
+                            Balance(node);
                         }
                         else
                         {
-                            current.Height++;
                             current = current.Right;
                         }
                     }
@@ -91,14 +117,10 @@ namespace AVLBinaryTree
                             done = true;
                             current.Left = node;
                             node.Parent = current;
-                            if (checkBalance(node) > 1 || checkBalance(node) < -1)
-                            {
-                                balance(node);
-                            }
+                            Balance(node);
                         }
                         else
                         {
-                            current.Height++;
                             current = current.Left;
                         }
 

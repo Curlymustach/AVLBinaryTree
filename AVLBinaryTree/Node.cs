@@ -46,6 +46,7 @@ namespace AVLBinaryTree
             return !isRightChild();
         }
 
+
         public bool isRightChild()
         {
             if (Parent == null) return false;
@@ -55,6 +56,35 @@ namespace AVLBinaryTree
             }
             return false;
         }
+
+        public int LargerChildHeight()
+        {
+            //figure out whihc child is larger
+
+            if(Left == null && Right == null)
+            {
+                return 0;
+            }
+            else if(Left != null && Right == null)
+            {
+                return Left.Height;
+            }
+            else if(Left == null && Right != null)
+            {
+                return Right.Height;
+            }
+            
+            if(Right.Height > Left.Height)
+            {
+                return Right.Height;
+            }
+            else
+            {
+                return Left.Height;
+            }
+        }
+
+
 
     }
 }
