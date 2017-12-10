@@ -32,16 +32,55 @@ namespace AVLBinaryTree
             return node.Right.Height - node.Left.Height;
         }
 
-        public void RotateRight(Node<T> node)
+        public void RotateRight(Node<T> node) //Left Child becomes parent
         {
-            node.Left = node;
-            node = node.Left.Right;
+            Node<T> child = node.Left;
+            Node<T> parent = node.Parent;
+            
+            if(child.Right != null)
+            {
+                node.Left = child.Right;
+                node.Left.Parent = node;
+            }
+            if(parent != null)
+            {
+                if(node.isLeftChild())
+                {
+                    node.Parent.Left = child;
+                }
+                if(node.isRightChild())
+                {
+                    node.Parent.Right = child;
+                }
+            }
+
+            child.Parent = parent;
+            node.Parent = child;
+            child.Right = node;
+
         }
 
-        public void RotateLeft(Node<T> node)
+        public void RotateLeft(Node<T> node) //Right Child becomes parent
         {
-            node.Right = node;
-            node = node.Right.Left;
+            Node<T> parent = node.Parent;
+            Node<T> child = node.Right;
+
+
+            if (child.Left != null)
+            {
+                node.Right = child.Left;
+                node.Right.Parent = node;
+            }
+            if (parent != null)
+            {
+                if (node.isRightChild()) node.Parent.Right = child;
+                if (node.isLeftChild()) node.Parent.Left = child;
+            }
+
+            child.Parent = parent;
+            node.Parent = child;
+            child.Left = node;
+
         }
 
         public void Balance(Node<T> node)
