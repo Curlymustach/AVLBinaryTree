@@ -12,8 +12,16 @@ namespace AVLBinaryTree
         {
             Tree<int> tree = new Tree<int>();
 
+            for (int i = 1; i <= 10; i++)
+            {
+                tree.Add(i);
+            }
+
+            tree.Delete(3);
+
+
             Console.ReadKey();
-   
+
         }
     }
 }

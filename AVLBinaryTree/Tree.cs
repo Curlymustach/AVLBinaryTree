@@ -17,6 +17,11 @@ namespace AVLBinaryTree
 
         public int CheckBalance(Node<T> node)
         {
+            if(node == null)
+            {
+                return 0;
+            }
+
             if (node.Left == null && node.Right == null)
             {
                 return 0;
@@ -36,27 +41,33 @@ namespace AVLBinaryTree
         {
             Node<T> child = node.Left;
             Node<T> parent = node.Parent;
-            
-            if(child.Right != null)
-            {
-                node.Left = child.Right;
-                node.Left.Parent = node;
-            }
-            if(parent != null)
-            {
-                if(node.isLeftChild())
-                {
-                    node.Parent.Left = child;
-                }
-                if(node.isRightChild())
-                {
-                    node.Parent.Right = child;
-                }
-            }
 
-            child.Parent = parent;
-            node.Parent = child;
-            child.Right = node;
+            if(child != null)
+            {
+                if (child.Right != null)
+                {
+                    node.Left = child.Right;
+                    node.Left.Parent = node;
+                }
+                if (parent != null)
+                {
+                    if (node.isLeftChild())
+                    {
+                        node.Parent.Left = child;
+                    }
+                    if (node.isRightChild())
+                    {
+                        node.Parent.Right = child;
+                    }
+                }
+
+                child.Parent = parent;
+                node.Parent = child;
+                child.Right = node;
+
+            }
+            
+
 
         }
 
@@ -135,7 +146,7 @@ namespace AVLBinaryTree
                 bool done = false;
                 do
                 {
-                    if (value.CompareTo(current.Value) >= 0)
+                    if (value.CompareTo(current.Value) >= 0)//go right
                     {
                         if (current.Right == null)
                         {
@@ -149,7 +160,7 @@ namespace AVLBinaryTree
                             current = current.Right;
                         }
                     }
-                    else if (value.CompareTo(current.Value) < 0)
+                    else if (value.CompareTo(current.Value) < 0)//go left
                     {
                         if (current.Left == null)
                         {
@@ -170,6 +181,70 @@ namespace AVLBinaryTree
             }
         }
 
+        public Node<T> Find(T value)
+        {
+            Node<T> temp = Head;
+
+            while (temp.Value.CompareTo(value) != 0)
+            {
+                if (value.CompareTo(temp.Value) > 0)//move right
+                {
+                    temp = temp.Right;
+                }
+                if (value.CompareTo(temp.Value) < 0) //move left
+                {
+                    temp = temp.Left;
+                }
+            }
+
+            return temp;
+
+        }
+
+        public void Delete(T value)
+        {
+            Delete(Find(value));
+        }
+
+        public void Delete(Node<T> node)
+        {
+            if (node.Left == null && node.Right == null)
+            {
+                if (node.isLeftChild())
+                {
+                    node.Parent.Left = null;
+                }
+                else
+                {
+                    node.Parent.Right = null;
+                }
+
+                Balance(node.Parent);
+            }
+            else if (node.Left == null & node.Right != null)
+            {
+                node.Right.Parent = node.Parent;
+                node.Parent.Right = node.Right;
+
+                Balance(node.Parent);
+            }
+            else if (node.Right == null && node.Left != null)
+            {
+                node.Left.Parent = node.Parent;
+                node.Parent.Left = node.Left;
+                Balance(node.Parent);
+            }
+            else if (node.Left != null && node.Right != null)
+            {
+                Node<T> temp = node.Left;
+                while (temp.Right != null)
+                {
+                    temp = temp.Right;
+                }
+                node.Value = temp.Value;
+                Delete(temp);
+            }
+        }
 
     }
 }
