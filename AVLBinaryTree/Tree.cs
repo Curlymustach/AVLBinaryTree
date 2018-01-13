@@ -65,10 +65,7 @@ namespace AVLBinaryTree
                 node.Parent = child;
                 child.Right = node;
 
-            }
-            
-
-
+            }         
         }
 
         public void RotateLeft(Node<T> node) //Right Child becomes parent
@@ -244,6 +241,25 @@ namespace AVLBinaryTree
                 node.Value = temp.Value;
                 Delete(temp);
             }
+        }
+
+        public void InOrderTraverse(Node<T> node)
+        {
+            Node<T> temp = node;
+            if (node != null)
+            {
+                if (temp.Left != null)
+                {
+                    InOrderTraverse(temp.Left);
+                }
+                Console.Write("{0}, ", temp.Value);
+                if (temp.Right != null)
+                {
+                    //temp = temp.Right;
+                    InOrderTraverse(temp.Right);
+                }
+            }
+
         }
 
     }

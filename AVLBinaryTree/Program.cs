@@ -17,8 +17,6 @@ namespace AVLBinaryTree
                 tree.Add(i);
             }
 
-            tree.Delete(3);
-
 
             Console.ReadKey();
 
