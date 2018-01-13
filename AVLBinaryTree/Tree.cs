@@ -64,7 +64,7 @@ namespace AVLBinaryTree
                 child.Parent = parent;
                 node.Parent = child;
                 child.Right = node;
-
+                child.Left = null;
             }         
         }
 
@@ -86,9 +86,9 @@ namespace AVLBinaryTree
             }
 
             child.Parent = parent;
-            node.Parent = child;
+            node.Parent = child;            
             child.Left = node;
-
+            node.Right = null;
         }
 
         public void Balance(Node<T> node)
@@ -100,7 +100,7 @@ namespace AVLBinaryTree
             node.Height = node.LargerChildHeight() + 1;
 
             //check balance
-            if (CheckBalance(node) < 1) //rotate right
+            if (CheckBalance(node) < -1) //rotate right
             {
                 if (CheckBalance(node.Left) > 0) //check for double rotate
                 {
@@ -134,7 +134,6 @@ namespace AVLBinaryTree
             if (Head == null)
             {
                 Head = new Node<T>(value, 1);
-
             }
             else
             {

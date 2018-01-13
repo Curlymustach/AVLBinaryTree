@@ -59,7 +59,7 @@ namespace AVLBinaryTree
 
         public int LargerChildHeight()
         {
-            //figure out whihc child is larger
+            //figure out which child is larger
 
             if(Left == null && Right == null)
             {
