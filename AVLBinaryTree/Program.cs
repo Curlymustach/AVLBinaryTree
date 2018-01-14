@@ -17,6 +17,7 @@ namespace AVLBinaryTree
                 tree.Add(i);
             }
 
+            tree.InOrderTraverse(tree.Head);
 
             Console.ReadKey();
 
