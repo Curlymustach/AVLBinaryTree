@@ -41,20 +41,19 @@ namespace AVLBinaryTree
             this.Value = Value;
         }
 
-        public bool isLeftChild()
-        {
-            return !isRightChild();
-        }
-
-
         public bool isRightChild()
         {
             if (Parent == null) return false;
-            if (Value.CompareTo(Parent.Value) >= 0)
+            if (Value.CompareTo(Parent.Value) > 0)
             {
                 return true;
             }
             return false;
+        }
+
+        public bool isLeftChild()
+        {
+            return !isRightChild();
         }
 
         public int LargerChildHeight()

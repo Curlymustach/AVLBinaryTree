@@ -218,13 +218,13 @@ namespace AVLBinaryTree
         {
             if (node.Left == null && node.Right == null)
             {
-                if (node.isLeftChild())
+                if (node.isRightChild())
                 {
-                    node.Parent.Left = null;
+                    node.Parent.Right = null;
                 }
                 else
                 {
-                    node.Parent.Right = null;
+                    node.Parent.Left = null;
                 }
 
                 Balance(node.Parent);
